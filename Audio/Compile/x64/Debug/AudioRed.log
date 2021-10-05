@@ -1,0 +1,14 @@
+﻿D:\Visual Studio\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(504,5): warning MSB8004: каталог Intermediate заканчивается не косой чертой.  Этот экземпляр сборки добавит косую черту, поскольку она необходима для правильного определения каталога Intermediate.
+D:\Visual Studio\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(505,5): warning MSB8004: каталог Output заканчивается не косой чертой.  Этот экземпляр сборки добавит косую черту, поскольку она необходима для правильного определения каталога Output.
+  Wav.cpp
+C:\Users\2у234\source\repos\Audio\Headers\Wav\Wav.h(42,15): warning C4244: =: преобразование "u_long" в "t", возможна потеря данных
+          with
+          [
+              t=unsigned short
+          ]
+C:\Users\2у234\source\repos\Audio\Headers\Wav\Wav.cpp(38): message : выполняется компиляция ссылки на экземпляр шаблон функции "void Wav::Wav::convert<unsigned short>(t &)"
+          with
+          [
+              t=unsigned short
+          ]
+  AudioRed.vcxproj -> C:\Users\2у234\source\repos\Audio\bin\x64\Debug\AudioRed.lib
