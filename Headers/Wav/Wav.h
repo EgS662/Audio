@@ -28,8 +28,8 @@ namespace Wav {
 		void getDataFromFile();
 		template<typename t>
 		void convert(t& byte);
-		void megaultrasuperxzdlachegoconvert();
 	public:
+		void save(std::string filename);
 		unsigned long long getSize();
 		Wav() = delete;
 		Wav(std::string filename);

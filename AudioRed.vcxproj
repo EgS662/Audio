@@ -115,6 +115,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +131,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,8 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Exceptions\Exceptions.h" />
+    <ClInclude Include="Headers\FileReader.h" />
+    <ClInclude Include="Headers\FileWriter.h" />
+    <ClInclude Include="Headers\Wav\Wav.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\FileReader.cpp" />
+    <ClCompile Include="Sources\FileWriter.cpp" />
+    <ClCompile Include="Sources\Wav\Wav.cpp" />
     <ClCompile Include="Sources\Exceptions\Exceptions.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

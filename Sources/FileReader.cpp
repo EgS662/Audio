@@ -1,10 +1,10 @@
 #include "..\Headers\FileReader.h"
+#include "Exceptions/Exceptions.h"
 #include<memory>
 unsigned long long FileReader::size()
 {
 	if (file == nullptr) {
-		std::cout << "Fail to open file\n";
-		return 0;
+		throw Exception{ "Cant open file",__FUNCTION__ };
 	}
 	fseek(file.get(), 0L, SEEK_END);
 	long int ans = ftell(file.get());
@@ -14,14 +14,17 @@ unsigned long long FileReader::size()
 FileReader::FileReader(std::string filename_):file{fopen(filename_.c_str(),"rb+")},filename{filename_}
 {
 	if(file == nullptr) {
-		std::cout << "Fail to open file\n";
+		throw Exception{"Cant open file",__FUNCTION__};
 		return;
 	}
 }
 
 FileReader::~FileReader()
 {
-	fclose(file.get());
+	if (file != nullptr) {
+		fclose(file.get());
+		file = nullptr;
+	}
 }
 
 std::unique_ptr<unsigned char[]> FileReader::GetBytes()
@@ -31,4 +34,16 @@ std::unique_ptr<unsigned char[]> FileReader::GetBytes()
 	fread(bytes, sizeof(unsigned char), FileSize, file.get());
 	std::unique_ptr<unsigned char[]> buffer_data{ std::move(bytes) };
 	return buffer_data;
+}
+
+void FileReader::save_bytes( char* bytes,std::string fileNAME)
+{
+	unsigned char arr[] = "234";
+	filename = fileNAME;
+	FILE* f = fopen(fileNAME.c_str(), "w+");
+	//file.reset(fopen(fileNAME.c_str(),"wb+"));
+	//auto SIze = size();
+	auto z = fwrite(arr, sizeof(arr[0]), 3, f);
+	std::cout << z;
+	fclose(f);
 }
