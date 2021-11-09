@@ -36,14 +36,14 @@ std::unique_ptr<unsigned char[]> FileReader::GetBytes()
 	return buffer_data;
 }
 
-void FileReader::save_bytes( char* bytes,std::string fileNAME)
-{
-	unsigned char arr[] = "234";
-	filename = fileNAME;
-	FILE* f = fopen(fileNAME.c_str(), "w+");
-	//file.reset(fopen(fileNAME.c_str(),"wb+"));
-	//auto SIze = size();
-	auto z = fwrite(arr, sizeof(arr[0]), 3, f);
-	std::cout << z;
-	fclose(f);
-}
+//void FileReader::save_bytes( char* bytes,std::string fileNAME)
+//{
+//	unsigned char arr[] = "234";
+//	filename = fileNAME;
+//	FILE* f = fopen(fileNAME.c_str(), "w+");
+//	//file.reset(fopen(fileNAME.c_str(),"wb+"));
+//	//auto SIze = size();
+//	auto z = fwrite(arr, sizeof(arr[0]), 3, f);
+//	std::cout << z;
+//	fclose(f);
+//}

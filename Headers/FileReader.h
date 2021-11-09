@@ -11,7 +11,7 @@ public:
 	FileReader(FileReader&& copy) = delete;
 	~FileReader();
 	std::unique_ptr<unsigned char[]> GetBytes();
-	void save_bytes(char*  bytes, std::string fileNAME);
+	//void save_bytes(char*  bytes, std::string fileNAME);
 };
 
 //waw h

@@ -4,27 +4,25 @@
 #include "FileWriter.h"
 #include<memory>
 namespace Wav {
-	void Wav::save(std::string filename)
+	void Wav::save(std::string filename_)
 	{
 		unsigned char* bytes = new unsigned char[size] {};
 		convert(header.Chunk_Size);
 		convert(header.SubChunkSize1);
-		convert(header.AudioFile);
-		convert(header.NumChannels);
+		header.AudioFile = _byteswap_ushort(header.AudioFile);
+		header.NumChannels = _byteswap_ushort(header.NumChannels);
 		convert(header.SampleRate);
 		convert(header.ByteRate);
-		convert(header.BlockAligin);
-		convert(header.BitsPerSample);
+		header.BlockAligin = _byteswap_ushort(header.BlockAligin);
+		header.BitsPerSample = _byteswap_ushort(header.BitsPerSample);
 		convert(header.SubChunkSize2);
 		memcpy(bytes, &header, sizeof(header));
-		memcpy(bytes, data.get(), size - sizeof(header));
-		FileWriter obj_{filename};
-		std::vector<unsigned char> Data;
-		for (auto i = 0; i < size; i++) {
-			Data.push_back(bytes[i]);
+		memcpy(bytes+sizeof(header), &data[0], size - sizeof(header));
+		std::unique_ptr<unsigned char[]> res{ new unsigned char[size] };
+		for (int i = 0; i < size; i++) {
+			res.get()[i] = bytes[i];
 		}
-		//std::unique_ptr<unsigned char[]> res{ bytes };
-		obj_.WriteToFile(Data);
+		FileWriter::getInstance().WriteToFile(filename_,size,std::move(res));
 	}
 	unsigned long long Wav::getSize()
 	{
@@ -44,6 +42,13 @@ namespace Wav {
 
 	}
 
+	void Wav::magnify()
+	{
+		for (int i = 0; i < data.size();i++) {
+			data[i] *= 10;
+		}
+	}
+
 	void Wav::getDataFromFile()
 	{
 		FileReader obj{Filename};
@@ -52,12 +57,12 @@ namespace Wav {
 		memcpy(&header, tmp.get(), sizeof(WavHeader));
 		convert(header.Chunk_Size);
 		convert(header.SubChunkSize1);
-		convert(header.AudioFile);
-		convert(header.NumChannels);
+		header.AudioFile = _byteswap_ushort(header.AudioFile);
+		header.NumChannels = _byteswap_ushort(header.NumChannels);
 		convert(header.SampleRate);
 		convert(header.ByteRate);
-		convert(header.BlockAligin);
-		convert(header.BitsPerSample);
+		header.BlockAligin = _byteswap_ushort(header.BlockAligin);
+		header.BitsPerSample = _byteswap_ushort(header.BitsPerSample);
 		convert(header.SubChunkSize2);
         char ChunkID[5];
 		char HeaderFormat[8];
@@ -65,14 +70,21 @@ namespace Wav {
 		memcpy(ChunkID, &header.Chunk_ID, sizeof(int)+1);
 		ChunkID[4] = 0;
 		HeaderFormat[7] = 0;
-	/*	if (strcmp(ChunkID, "RIFF") != 0) {
+		if (strcmp(ChunkID, "RIFF") != 0) {
 			throw Exception("Its not wav file",__FUNCTION__);
 		}
 		if (strcmp(HeaderFormat, "WAVEfmt") != 0) {
 			throw Exception("Its not wav file", __FUNCTION__);
-		}*/
+		}
 		unsigned char* tmp1 = new unsigned char[size - sizeof(header)]{};
 		memcpy(tmp1,tmp.get() + sizeof(header),size - sizeof(header));
-		data.reset(tmp1);
+		for (int i = 0; i < size - sizeof(header); i++) {
+			data.push_back(tmp1[i]);
+		}
+		delete[] tmp1;
 	}
 }
+//конец данных wav 
+//алгоритмы обработки звука
+//звук фильтры
+// библиотеки для рисования графиков с++

@@ -4,11 +4,9 @@
 #include<vector>
 #include<fstream>
 class FileWriter {
-	std::string filename;
-	std::ofstream file;
+FileWriter() = default;
 public:
-	FileWriter() = delete;
-	FileWriter(std::string Filename);
 	~FileWriter();
-	void WriteToFile(std::vector<unsigned char> data);
+	static FileWriter& getInstance();
+	void WriteToFile(std::string location,size_t size,std::unique_ptr<unsigned char[]> buffer);
 };
